@@ -48,6 +48,9 @@ RUN chmod a+x /home/${user}/ubuntu-xenial-docker-setup.sh
 RUN zsh -c "sudo /home/${user}/ubuntu-xenial-docker-setup.sh"
 RUN rm -f /home/${user}/ubuntu-xenial-docker-setup.sh
 
+RUN zsh -c "sudo aptitude -y autoclean"
+RUN zsh -c "sudo aptitude -y purge \$( dpkg --get-selections | grep deinstall | cut -f1 )"
+
 USER root
 WORKDIR /root
 
