@@ -47,8 +47,10 @@ RUN chmod a+x /home/${user}/ubuntu-trusty-docker-setup.sh
 RUN zsh -c "sudo /home/${user}/ubuntu-trusty-docker-setup.sh"
 RUN rm -f /home/${user}/ubuntu-trusty-docker-setup.sh
 
+RUN zsh -c "echo \"debconf debconf/frontend select Noninteractive\" | sudo debconf-set-selections"
 RUN zsh -c "sudo aptitude -y autoclean"
 RUN zsh -c "sudo aptitude -y purge \$( dpkg --get-selections | grep deinstall | cut -f1 )"
+RUN zsh -c "echo \"debconf debconf/frontend select Dialog\" | sudo debconf-set-selections"
 
 USER root
 WORKDIR /root
