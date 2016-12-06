@@ -20,7 +20,6 @@ RUN aptitude update
 RUN aptitude -y upgrade
 RUN aptitude -y install openssh-server
 RUN aptitude -y install sudo zsh git
-
 RUN echo "debconf debconf/frontend select Dialog" | debconf-set-selections
 
 RUN mkdir /var/run/sshd
