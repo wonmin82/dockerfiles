@@ -46,6 +46,7 @@ COPY ubuntu-xenial-docker-setup.sh /home/${user}/
 RUN sudo chown ${user}:${user} /home/${user}/ubuntu-xenial-docker-setup.sh
 RUN chmod a+x /home/${user}/ubuntu-xenial-docker-setup.sh
 RUN zsh -c 'sudo /home/${user}/ubuntu-xenial-docker-setup.sh'
+RUN rm -f /home/${user}/ubuntu-xenial-docker-setup.sh
 
 USER root
 WORKDIR /root
