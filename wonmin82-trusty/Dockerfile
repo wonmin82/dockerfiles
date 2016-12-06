@@ -45,7 +45,7 @@ WORKDIR /home/${user}
 COPY ubuntu-trusty-docker-setup.sh /home/${user}/
 RUN sudo chown ${user}:${user} /home/${user}/ubuntu-trusty-docker-setup.sh
 RUN chmod a+x /home/${user}/ubuntu-trusty-docker-setup.sh
-RUN zsh -c 'sudo /home/${user}/ubuntu-trusty-docker-setup.sh'
+RUN zsh -c "sudo /home/${user}/ubuntu-trusty-docker-setup.sh"
 RUN rm -f /home/${user}/ubuntu-trusty-docker-setup.sh
 
 USER root
