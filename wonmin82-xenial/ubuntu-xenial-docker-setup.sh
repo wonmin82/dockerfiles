@@ -15,6 +15,7 @@ list_pkgs_to_be_installed=(
 "build-essential"
 "libboost-all-dev"
 "libboost-doc"
+"cmake"
 "automake"
 "autotools-dev"
 "autoconf"
