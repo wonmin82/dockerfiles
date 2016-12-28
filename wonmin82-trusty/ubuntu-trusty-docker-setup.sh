@@ -36,6 +36,7 @@ list_pkgs_to_be_installed=(
 "g++-multilib"
 "gobjc++-multilib"
 "gobjc-multilib"
+"man-db"
 "manpages"
 "manpages-dev"
 "manpages-posix"
