@@ -130,6 +130,9 @@ retry()
 
 pre_process()
 {
+	echo "dash dash/sh boolean false" | debconf-set-selections
+	dpkg-reconfigure --frontend noninteractive dash
+
 	echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections
 
 	rm -f /etc/apt/apt.conf.d/docker-clean
