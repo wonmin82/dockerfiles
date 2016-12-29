@@ -52,6 +52,8 @@ RUN zsh -c "sudo aptitude -y autoclean"
 RUN zsh -c "sudo aptitude -y purge \$( dpkg --get-selections | grep deinstall | cut -f1 )"
 RUN zsh -c "echo \"debconf debconf/frontend select Dialog\" | sudo debconf-set-selections"
 
+RUN sudo zsh -c "rm -r -f /home/${user}/tmp/"
+
 USER root
 WORKDIR /root
 
