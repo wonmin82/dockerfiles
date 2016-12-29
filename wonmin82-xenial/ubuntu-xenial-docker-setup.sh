@@ -137,7 +137,7 @@ pre_process()
 	echo "dash dash/sh boolean false" | debconf-set-selections
 	dpkg-reconfigure --frontend noninteractive dash
 
-	echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections
+	echo "debconf debconf/frontend select noninteractive" | debconf-set-selections
 
 	rm -f /etc/apt/apt.conf.d/docker-clean
 
@@ -220,7 +220,7 @@ install_all()
 
 post_process()
 {
-	echo "debconf debconf/frontend select Dialog" | debconf-set-selections
+	echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
 	user="$(getent passwd 1000 | cut -d: -f1)"
 	home="$(getent passwd 1000 | cut -d: -f6)"

@@ -11,7 +11,7 @@ RUN ln -s -f /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 RUN sed -e 's/http:\/\/archive\.ubuntu\.com\//http:\/\/kr\.archive\.ubuntu\.com\//g' -i /etc/apt/sources.list
 RUN locale-gen "en_US" "en_US.UTF-8"
 RUN dpkg-reconfigure --frontend noninteractive locales
-RUN echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections
+RUN echo "debconf debconf/frontend select noninteractive" | debconf-set-selections
 RUN apt-get update
 RUN apt-get -y install aptitude
 RUN aptitude -y install apt-utils software-properties-common
@@ -20,7 +20,7 @@ RUN aptitude update
 RUN aptitude -y upgrade
 RUN aptitude -y install openssh-server
 RUN aptitude -y install sudo zsh git
-RUN echo "debconf debconf/frontend select Dialog" | debconf-set-selections
+RUN echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
 RUN mkdir /var/run/sshd
 # RUN echo 'root:screencast' | chpasswd
@@ -47,10 +47,10 @@ RUN chmod a+x /home/${user}/ubuntu-trusty-docker-setup.sh
 RUN zsh -c "sudo /home/${user}/ubuntu-trusty-docker-setup.sh"
 RUN rm -f /home/${user}/ubuntu-trusty-docker-setup.sh
 
-RUN zsh -c "echo \"debconf debconf/frontend select Noninteractive\" | sudo debconf-set-selections"
+RUN zsh -c "echo \"debconf debconf/frontend select noninteractive\" | sudo debconf-set-selections"
 RUN zsh -c "sudo aptitude -y autoclean"
 RUN zsh -c "sudo aptitude -y purge \$( dpkg --get-selections | grep deinstall | cut -f1 )"
-RUN zsh -c "echo \"debconf debconf/frontend select Dialog\" | sudo debconf-set-selections"
+RUN zsh -c "echo \"debconf debconf/frontend select dialog\" | sudo debconf-set-selections"
 
 RUN sudo zsh -c "rm -r -f /home/${user}/tmp/"
 
