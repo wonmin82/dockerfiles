@@ -12,13 +12,18 @@ RUN sed -e 's/http:\/\/archive\.ubuntu\.com\//http:\/\/kr\.archive\.ubuntu\.com\
 RUN locale-gen "en_US" "en_US.UTF-8"
 RUN dpkg-reconfigure --frontend noninteractive locales
 RUN echo "debconf debconf/frontend select noninteractive" | debconf-set-selections
-RUN apt-get update
+RUN retry() { for i in $(seq 1 20); do eval $* && break || sleep 5; done }; retry apt-get update
+RUN retry() { for i in $(seq 1 20); do eval $* && break || sleep 5; done }; retry apt-get -d -y install aptitude
 RUN apt-get -y install aptitude
+RUN retry() { for i in $(seq 1 20); do eval $* && break || sleep 5; done }; retry aptitude -d -y install apt-utils software-properties-common
 RUN aptitude -y install apt-utils software-properties-common
 RUN add-apt-repository multiverse
 RUN aptitude update
+RUN retry() { for i in $(seq 1 20); do eval $* && break || sleep 5; done }; retry aptitude -d -y upgrade
 RUN aptitude -y upgrade
+RUN retry() { for i in $(seq 1 20); do eval $* && break || sleep 5; done }; retry aptitude -d -y install openssh-server
 RUN aptitude -y install openssh-server
+RUN retry() { for i in $(seq 1 20); do eval $* && break || sleep 5; done }; retry aptitude -d -y install sudo zsh git
 RUN aptitude -y install sudo zsh git
 RUN echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
