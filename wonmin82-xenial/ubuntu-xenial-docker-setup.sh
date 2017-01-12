@@ -141,7 +141,7 @@ pre_process()
 
 	rm -f /etc/apt/apt.conf.d/docker-clean
 
-	user="$(getent passwd 1000 | cut -d: -f1)"
+	user="$(id -un 1000)"
 	home="$(getent passwd 1000 | cut -d: -f6)"
 
 	sudo -u ${user} -H -i bash -c "mkdir -p ${home}/work/"
@@ -222,7 +222,7 @@ post_process()
 {
 	echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
-	user="$(getent passwd 1000 | cut -d: -f1)"
+	user="$(id -un 1000)"
 	home="$(getent passwd 1000 | cut -d: -f6)"
 
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/ubuntu/buildpkg/ && ./setup.sh && popd"
