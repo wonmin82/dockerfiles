@@ -81,7 +81,6 @@ list_pkgs_to_be_installed=(
 "libslang2-dev"
 "libevent-dev"
 "libcurl4-openssl-dev"
-"liblua5.2-dev"
 "php-all-dev"
 "python-all"
 "python-dev"
