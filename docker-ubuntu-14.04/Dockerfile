@@ -46,11 +46,11 @@ RUN sed -i.bkp -e \
 USER ${user}
 WORKDIR /home/${user}
 
-COPY docker-ubuntu-14.04-setup.sh /home/${user}/
-RUN sudo chown ${user}:${user} /home/${user}/docker-ubuntu-14.04-setup.sh
-RUN chmod a+x /home/${user}/docker-ubuntu-14.04-setup.sh
-RUN zsh -c "sudo /home/${user}/docker-ubuntu-14.04-setup.sh"
-RUN rm -f /home/${user}/docker-ubuntu-14.04-setup.sh
+COPY setup-docker-ubuntu-14.04.sh /home/${user}/
+RUN sudo chown ${user}:${user} /home/${user}/setup-docker-ubuntu-14.04.sh
+RUN chmod a+x /home/${user}/setup-docker-ubuntu-14.04.sh
+RUN zsh -c "sudo /home/${user}/setup-docker-ubuntu-14.04.sh"
+RUN rm -f /home/${user}/setup-docker-ubuntu-14.04.sh
 
 RUN zsh -c "echo \"debconf debconf/frontend select noninteractive\" | sudo debconf-set-selections"
 RUN zsh -c "sudo aptitude -y autoclean"
