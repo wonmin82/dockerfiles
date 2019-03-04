@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:14.04.5
 MAINTAINER Wonmin Jung <wonmin82@gmail.com>
 
 ENV user wonmin82
@@ -37,7 +37,7 @@ ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
 RUN adduser --disabled-password --gecos '' --shell /bin/bash ${user}
-RUN echo "${user}:xenial" | chpasswd
+RUN echo "${user}:trusty" | chpasswd
 RUN adduser ${user} sudo
 RUN sed -i.bkp -e \
 		's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' \
@@ -46,11 +46,11 @@ RUN sed -i.bkp -e \
 USER ${user}
 WORKDIR /home/${user}
 
-COPY ubuntu-xenial-docker-setup.sh /home/${user}/
-RUN sudo chown ${user}:${user} /home/${user}/ubuntu-xenial-docker-setup.sh
-RUN chmod a+x /home/${user}/ubuntu-xenial-docker-setup.sh
-RUN zsh -c "sudo /home/${user}/ubuntu-xenial-docker-setup.sh"
-RUN rm -f /home/${user}/ubuntu-xenial-docker-setup.sh
+COPY docker-ubuntu-14.04-setup.sh /home/${user}/
+RUN sudo chown ${user}:${user} /home/${user}/docker-ubuntu-14.04-setup.sh
+RUN chmod a+x /home/${user}/docker-ubuntu-14.04-setup.sh
+RUN zsh -c "sudo /home/${user}/docker-ubuntu-14.04-setup.sh"
+RUN rm -f /home/${user}/docker-ubuntu-14.04-setup.sh
 
 RUN zsh -c "echo \"debconf debconf/frontend select noninteractive\" | sudo debconf-set-selections"
 RUN zsh -c "sudo aptitude -y autoclean"
