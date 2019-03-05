@@ -16,6 +16,7 @@ RUN apt-get -y install aptitude
 RUN retry() { for i in $(seq 1 20); do eval $* && break || sleep 5; done }; retry aptitude -d -y install locales apt-utils software-properties-common
 RUN aptitude -y install locales apt-utils software-properties-common
 RUN locale-gen "en_US" "en_US.UTF-8"
+ENV LANG en_US.utf8
 RUN dpkg-reconfigure --frontend noninteractive locales
 RUN add-apt-repository multiverse
 RUN aptitude update
