@@ -38,7 +38,7 @@ ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
 RUN adduser --disabled-password --gecos '' --shell /bin/bash ${user}
-RUN echo "${user}:trusty" | chpasswd
+RUN echo "${user}:docker" | chpasswd
 RUN adduser ${user} sudo
 RUN sed -i.bkp -e \
 		's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' \
