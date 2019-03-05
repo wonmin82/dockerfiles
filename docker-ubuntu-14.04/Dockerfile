@@ -1,4 +1,4 @@
-FROM ubuntu:14.04.5
+FROM ubuntu:14.04
 MAINTAINER Wonmin Jung <wonmin82@gmail.com>
 
 ENV user wonmin82
