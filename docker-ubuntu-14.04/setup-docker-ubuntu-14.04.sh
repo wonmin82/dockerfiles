@@ -95,7 +95,10 @@ list_pkgs_to_be_installed=(
 "python3-flake8"
 # need to be checked for existence when ubuntu is upgraded {
 "ruby-full"
+"ruby2.0-doc"
 # }
+"rustc"
+"cargo"
 # lua version should be matched with 'vim --version | grep lua' {
 "liblua5.2-dev"
 "lua5.2"
@@ -223,6 +226,7 @@ post_process()
 
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/ubuntu/buildpkg/ && ./setup.sh && popd"
 
+	sudo -u ${user} -H -i bash -c "sed -i -e \"s/'unix' : '.\/install.py --all --system-libclang'/'unix' : '.\/install.py --clang-completer --system-libclang --cs-completer --rust-completer --java-completer/\" .vimrc"
 	sudo -u ${user} -H -i bash -c "vim"
 }
 
