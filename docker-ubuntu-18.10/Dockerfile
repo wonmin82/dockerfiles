@@ -19,6 +19,7 @@ RUN dpkg-reconfigure --frontend noninteractive locales
 RUN add-apt-repository multiverse
 RUN aptitude update
 RUN aptitude -y upgrade
+RUN yes | unminimize
 RUN aptitude -y install openssh-server sudo zsh git
 RUN echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
