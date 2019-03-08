@@ -226,7 +226,7 @@ post_process()
 	user="$(id -un 1000)"
 	home="$(getent passwd 1000 | cut -d: -f6)"
 
-	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/ubuntu/buildpkg/ && ./setup.sh && popd"
+	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/buildpkg/ && ./setup.sh && popd"
 
 	sudo -u ${user} -H -i bash -c "vim"
 }
