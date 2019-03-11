@@ -87,7 +87,7 @@ list_pkgs_to_be_installed=(
 "python-dev"
 "python-all-dev"
 "python-pip"
-"python-pep8"
+"pep8"
 "python-autopep8"
 "python-flake8"
 "python-doc"
