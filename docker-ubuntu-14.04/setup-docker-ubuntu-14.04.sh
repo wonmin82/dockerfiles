@@ -65,6 +65,7 @@ list_pkgs_to_be_installed=(
 "git-arch"
 "git-core"
 "git-cvs"
+"git-daemon-sysvinit"
 "git-doc"
 "git-email"
 "git-gui"
