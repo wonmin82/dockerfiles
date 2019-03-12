@@ -34,6 +34,7 @@ list_pkgs_to_be_installed=(
 "g++-multilib"
 "gobjc++-multilib"
 "gobjc-multilib"
+"gdb"
 "swig"
 "man-db"
 "manpages"
