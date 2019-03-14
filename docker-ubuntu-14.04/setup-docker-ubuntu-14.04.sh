@@ -87,6 +87,7 @@ list_pkgs_to_be_installed=(
 "python-all"
 "python-dev"
 "python-all-dev"
+"python-virtualenv"
 "python-pip"
 "python-sphinx"
 "pep8"
