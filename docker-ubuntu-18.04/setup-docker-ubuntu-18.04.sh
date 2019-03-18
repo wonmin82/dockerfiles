@@ -41,6 +41,7 @@ list_pkgs_to_be_installed=(
 "manpages-dev"
 "manpages-posix"
 "manpages-posix-dev"
+"cppman"
 "dialog"
 "sudo"
 "zsh"
