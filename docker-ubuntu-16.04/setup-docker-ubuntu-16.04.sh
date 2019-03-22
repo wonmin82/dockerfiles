@@ -113,6 +113,8 @@ list_pkgs_to_be_installed=(
 # }
 "rustc"
 "cargo"
+"perl"
+"perl-doc"
 # build dependency for vim {
 "lua5.2"
 "liblua5.2-dev"
