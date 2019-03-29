@@ -103,7 +103,6 @@ list_pkgs_to_be_installed=(
 "python3-doc"
 "flake8"
 "virtualenv"
-"virtualenvwrapper"
 # need to be checked for existence when ubuntu is upgraded {
 "ruby-full"
 "ruby2.5-doc"
