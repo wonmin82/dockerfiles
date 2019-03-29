@@ -103,6 +103,7 @@ list_pkgs_to_be_installed=(
 "python3-doc"
 "flake8"
 "virtualenv"
+"virtualenvwrapper"
 # need to be checked for existence when ubuntu is upgraded {
 "ruby-full"
 "ruby2.5-doc"
@@ -239,6 +240,9 @@ post_process()
 
 	user="$(id -un 1000)"
 	home="$(getent passwd 1000 | cut -d: -f6)"
+
+	# virtualenvwrapper for python3
+	PIP_REQUIRE_VIRTUALENV= pip3 install --system virtualenvwrapper virtualenv
 
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/buildpkg/ && ./setup.sh && popd"
 
