@@ -1,17 +1,17 @@
 #!/bin/bash
 
-list_tasks_to_be_installed=(
+list_install_tasks=(
 "openssh-server"
 )
 
-list_pkgs_to_be_uninstalled=(
+list_uninstall_pkgs=(
 )
 
-list_pkgs_to_be_prohibited=(
+list_prohibit_pkgs=(
 
 )
 
-list_pkgs_to_be_installed=(
+list_install_pkgs=(
 "build-essential"
 "libboost-all-dev"
 "libboost-doc"
@@ -123,6 +123,11 @@ list_pkgs_to_be_installed=(
 "mono-complete"
 )
 
+apt_update="retry aptitude update"
+apt_fetch="retry aptitude -y --with-recommends --download-only install"
+apt_install="aptitude -y --with-recommends install"
+apt_remove="aptitude -y purge"
+
 retry()
 {
 	local nTrys=0
@@ -168,9 +173,9 @@ pre_process()
 
 install_prerequisites()
 {
-	retry aptitude update
-	retry aptitude -y --with-recommends --download-only install apt-transport-https ca-certificates tasksel curl
-	aptitude -y --with-recommends install apt-transport-https ca-certificates tasksel curl
+	eval ${apt_update}
+	eval ${apt_fetch} apt-transport-https ca-certificates tasksel curl
+	eval ${apt_install} apt-transport-https ca-certificates tasksel curl
 }
 
 add_ppa()
@@ -179,11 +184,18 @@ add_ppa()
 	add-apt-repository --no-update ppa:webupd8team/java < /dev/null
 
 	# node.js v8.x
-	curl -sL --retry 10 --retry-connrefused --retry-delay 3 https://deb.nodesource.com/setup_8.x | bash -
+	curl -sL --retry 10 --retry-connrefused --retry-delay 3 \
+		https://deb.nodesource.com/setup_8.x | bash -
 
 	# mono
-	retry apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-	echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list
+	retry apt-key adv \
+		--keyserver hkp://keyserver.ubuntu.com:80 \
+		--recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+	echo "deb \
+		https://download.mono-project.com/repo/ubuntu \
+		stable-bionic \
+		main" \
+		| tee /etc/apt/sources.list.d/mono-official-stable.list
 
 	retry aptitude update
 }
@@ -191,46 +203,49 @@ add_ppa()
 install_java()
 {
 	ORACLE_JAVA_PKG_PREFIX="oracle-java8"
-	retry aptitude -y -d install ${ORACLE_JAVA_PKG_PREFIX}-installer ${ORACLE_JAVA_PKG_PREFIX}-set-default ${ORACLE_JAVA_PKG_PREFIX}-unlimited-jce-policy
+	eval ${apt_fetch} \
+		${ORACLE_JAVA_PKG_PREFIX}-installer \
+		${ORACLE_JAVA_PKG_PREFIX}-set-default \
+		${ORACLE_JAVA_PKG_PREFIX}-unlimited-jce-policy
 	lastStatus=256
 	until [[ ${lastStatus} == 0 ]]; do
-		aptitude -y purge ${ORACLE_JAVA_PKG_PREFIX}-installer ${ORACLE_JAVA_PKG_PREFIX}-set-default ${ORACLE_JAVA_PKG_PREFIX}-unlimited-jce-policy
-		echo "${ORACLE_JAVA_PKG_PREFIX}-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
-		aptitude -y install ${ORACLE_JAVA_PKG_PREFIX}-installer ${ORACLE_JAVA_PKG_PREFIX}-set-default ${ORACLE_JAVA_PKG_PREFIX}-unlimited-jce-policy
+		eval ${apt_remove} \
+			${ORACLE_JAVA_PKG_PREFIX}-installer \
+			${ORACLE_JAVA_PKG_PREFIX}-set-default \
+			${ORACLE_JAVA_PKG_PREFIX}-unlimited-jce-policy
+		echo "${ORACLE_JAVA_PKG_PREFIX}-installer \
+			shared/accepted-oracle-license-v1-1 \
+			select true" | debconf-set-selections
+		eval ${apt_install} \
+			${ORACLE_JAVA_PKG_PREFIX}-installer \
+			${ORACLE_JAVA_PKG_PREFIX}-set-default \
+			${ORACLE_JAVA_PKG_PREFIX}-unlimited-jce-policy
 		lastStatus=$?
 	done
 }
 
 fetch_all()
 {
-	aptitude_fetch_command="retry aptitude -y --with-recommends --download-only install"
-	for task in "${list_tasks_to_be_installed[@]}"; do
+	for task in "${list_install_tasks[@]}"; do
 		list_pkg=($(tasksel --task-packages ${task}))
-		aptitude_fetch_command="${aptitude_fetch_command} ${list_pkg[@]}"
-		eval $aptitude_fetch_command
+		eval ${apt_fetch} ${list_pkg[@]}
 	done
 
-	aptitude_fetch_command="retry aptitude -y --with-recommends --download-only install"
-	aptitude_fetch_command="${aptitude_fetch_command} ${list_pkgs_to_be_installed[@]}"
-	eval $aptitude_fetch_command
+	eval ${apt_fetch} ${list_install_pkgs[@]}
 }
 
 install_all()
 {
-	aptitude_install_command="aptitude -y --with-recommends install"
-	for task in "${list_tasks_to_be_installed[@]}"; do
+	for task in "${list_install_tasks[@]}"; do
 		list_pkg=($(tasksel --task-packages ${task}))
-		aptitude_install_command="${aptitude_install_command} ${list_pkg[@]}"
-		eval $aptitude_install_command
+		eval ${apt_install} ${list_pkg[@]}
 	done
 
-	aptitude_remove_command="aptitude -y purge"
-	aptitude_remove_command="${aptitude_remove_command} ${list_pkgs_to_be_uninstalled[@]}"
-	eval $aptitude_remove_command
+	if [ ${#list_uninstall_pkgs[@]} -ne 0 ]; then
+		eval ${apt_remove} ${list_uninstall_pkgs[@]}
+	fi
 
-	aptitude_install_command="aptitude -y --with-recommends install"
-	aptitude_install_command="${aptitude_install_command} ${list_pkgs_to_be_installed[@]}"
-	eval $aptitude_install_command
+	eval ${apt_install} ${list_install_pkgs[@]}
 }
 
 post_process()
