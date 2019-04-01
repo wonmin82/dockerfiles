@@ -261,7 +261,7 @@ post_process()
 	home="$(getent passwd 1000 | cut -d: -f6)"
 
 	# virtualenvwrapper for python3
-	PIP_REQUIRE_VIRTUALENV= pip3 install --system virtualenvwrapper virtualenv
+	PIP_REQUIRE_VIRTUALENV="false" pip3 install --system virtualenvwrapper virtualenv
 
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/buildpkg/ && ./setup.sh && popd"
 
