@@ -200,7 +200,7 @@ add_ppa()
 		main" \
 		| tee /etc/apt/sources.list.d/mono-official-stable.list
 
-	retry aptitude update
+	eval ${apt_update}
 }
 
 install_java()
