@@ -82,6 +82,7 @@ list_install_pkgs=(
 "git"
 "htop"
 "glances"
+"vim"
 "exuberant-ctags"
 "cscope"
 "gettext"
