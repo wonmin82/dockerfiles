@@ -10,19 +10,16 @@ WORKDIR /root
 RUN ln -s -f /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 RUN sed -e 's/http:\/\/archive\.ubuntu\.com\//http:\/\/kr\.archive\.ubuntu\.com\//g' -i /etc/apt/sources.list
-RUN echo "debconf debconf/frontend select noninteractive" | debconf-set-selections
-RUN apt-get update
-RUN apt-get -y install aptitude
-RUN aptitude -y install locales apt-utils software-properties-common
+RUN apt-get update && \
+		apt-get -y install aptitude && \
+		aptitude -y install locales apt-utils software-properties-common
 RUN locale-gen "en_US" "en_US.UTF-8"
 ENV LANG en_US.utf8
-RUN dpkg-reconfigure --frontend noninteractive locales
-RUN add-apt-repository multiverse
-RUN aptitude update
-RUN aptitude -y upgrade
+RUN add-apt-repository multiverse && \
+		aptitude update && \
+		aptitude -y upgrade
 RUN yes | unminimize
 RUN aptitude -y install openssh-server sudo zsh git
-RUN echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
 RUN mkdir /var/run/sshd
 # RUN echo 'root:screencast' | chpasswd
@@ -33,26 +30,23 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
-RUN adduser --disabled-password --gecos '' --shell /bin/bash ${user}
-RUN echo "${user}:docker" | chpasswd
-RUN adduser ${user} sudo
-RUN sed -i.bkp -e \
-		's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' \
-		/etc/sudoers
+RUN adduser --disabled-password --gecos '' --shell /bin/bash ${user} && \
+		echo "${user}:docker" | chpasswd && \
+		adduser ${user} sudo && \
+		sed -i.bkp -e \
+				's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' \
+				/etc/sudoers
 
 USER ${user}
 WORKDIR /home/${user}
 
 COPY setup-docker-ubuntu-19.04.sh /home/${user}/
-RUN sudo chown ${user}:${user} /home/${user}/setup-docker-ubuntu-19.04.sh
-RUN chmod a+x /home/${user}/setup-docker-ubuntu-19.04.sh
-RUN zsh -c "sudo /home/${user}/setup-docker-ubuntu-19.04.sh"
-RUN rm -f /home/${user}/setup-docker-ubuntu-19.04.sh
-
-RUN zsh -c "echo \"debconf debconf/frontend select noninteractive\" | sudo debconf-set-selections"
-RUN zsh -c "sudo aptitude -y autoclean"
-RUN zsh -c "sudo aptitude -y purge \$( dpkg --get-selections | grep deinstall | cut -f1 )"
-RUN zsh -c "echo \"debconf debconf/frontend select dialog\" | sudo debconf-set-selections"
+RUN sudo chown ${user}:${user} /home/${user}/setup-docker-ubuntu-19.04.sh && \
+		chmod a+x /home/${user}/setup-docker-ubuntu-19.04.sh && \
+		zsh -c "sudo /home/${user}/setup-docker-ubuntu-19.04.sh" && \
+		rm -f /home/${user}/setup-docker-ubuntu-19.04.sh && \
+		zsh -c "sudo aptitude -y clean" && \
+		zsh -c "sudo aptitude -y purge \$( dpkg --get-selections | grep deinstall | cut -f1 )"
 
 RUN sudo zsh -c "rm -r -f /home/${user}/tmp/"
 
