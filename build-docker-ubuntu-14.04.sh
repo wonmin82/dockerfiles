@@ -4,6 +4,7 @@ set -e -x
 
 docker build                        \
 	-t docker-ubuntu-14.04          \
+	--build-arg user=${USER}        \
 	$PWD/docker-ubuntu-14.04
 docker run                          \
 	--detach                        \

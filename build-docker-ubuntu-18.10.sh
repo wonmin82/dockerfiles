@@ -4,6 +4,7 @@ set -e -x
 
 docker build                        \
 	-t docker-ubuntu-18.10          \
+	--build-arg user=${USER}        \
 	$PWD/docker-ubuntu-18.10
 docker run                          \
 	--detach                        \

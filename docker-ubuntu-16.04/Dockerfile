@@ -1,7 +1,8 @@
 FROM ubuntu:16.04
 MAINTAINER Wonmin Jung <wonmin82@gmail.com>
 
-ENV user wonmin82
+ARG user
+ENV user=${user}
 
 USER root
 WORKDIR /root
