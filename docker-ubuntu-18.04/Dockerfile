@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 MAINTAINER Wonmin Jung <wonmin82@gmail.com>
 
-ARG user
+ARG user="user"
 ENV user=${user}
 
 USER root
