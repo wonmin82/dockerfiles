@@ -3,6 +3,8 @@ MAINTAINER Wonmin Jung <wonmin82@gmail.com>
 
 ARG user="user"
 ENV user=${user}
+ARG ssh_prv_key
+ARG ssh_pub_key
 
 USER root
 WORKDIR /root
@@ -31,14 +33,23 @@ ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
 RUN adduser --disabled-password --gecos '' --shell /bin/bash ${user} && \
-		echo "${user}:docker" | chpasswd && \
 		adduser ${user} sudo && \
 		sed -i.bkp -e \
 				's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' \
 				/etc/sudoers
+# RUN echo "${user}:docker" | chpasswd
 
 USER ${user}
 WORKDIR /home/${user}
+
+RUN mkdir -p /home/${user}/.ssh && \
+		chmod 0700 /home/${user}/.ssh && \
+		echo "$ssh_prv_key" > /home/${user}/.ssh/id_rsa && \
+		echo "$ssh_pub_key" > /home/${user}/.ssh/id_rsa.pub && \
+		echo "$ssh_pub_key" > /home/${user}/.ssh/authorized_keys && \
+		chmod 600 /home/${user}/.ssh/id_rsa && \
+		chmod 400 /home/${user}/.ssh/id_rsa.pub && \
+		chmod 400 /home/${user}/.ssh/authorized_keys
 
 COPY setup-docker-ubuntu-19.04.sh /home/${user}/
 RUN sudo chown ${user}:${user} /home/${user}/setup-docker-ubuntu-19.04.sh && \
