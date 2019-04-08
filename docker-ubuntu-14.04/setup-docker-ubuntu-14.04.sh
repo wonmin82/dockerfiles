@@ -255,6 +255,8 @@ post_process()
 	user="$(getent passwd 1000 | cut -d: -f1)"
 	home="$(getent passwd 1000 | cut -d: -f6)"
 
+	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/buildpkg/ && ./setup.sh && popd"
+
 	sudo -u ${user} -H -i bash -c "sed -i -e \"s/^let s:is_ycm_enabled = .*/let s:is_ycm_enabled = 0/\" ${home}/.vimrc"
 
 	sudo -u ${user} -H -i bash -c "vim"

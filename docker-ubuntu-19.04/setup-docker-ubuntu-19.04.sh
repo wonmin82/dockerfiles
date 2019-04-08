@@ -338,6 +338,8 @@ post_process()
 	# virtualenvwrapper for python3
 	PIP_REQUIRE_VIRTUALENV="false" pip3 install --system virtualenvwrapper virtualenv
 
+	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/buildpkg/ && ./setup.sh && popd"
+
 	sudo -u ${user} -H -i bash -c "vim"
 }
 
