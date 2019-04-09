@@ -20,7 +20,6 @@ ENV LANG en_US.utf8
 RUN add-apt-repository multiverse && \
 		aptitude update && \
 		aptitude -y upgrade
-RUN yes | unminimize
 RUN aptitude -y install openssh-server sudo zsh git
 
 RUN mkdir /var/run/sshd
