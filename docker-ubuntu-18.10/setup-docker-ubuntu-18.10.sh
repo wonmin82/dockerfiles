@@ -128,6 +128,11 @@ list_install_pkgs=(
 "golang"
 "nodejs"
 "mono-complete"
+"openjdk-11-jdk"
+"openjdk-11-jre"
+"openjdk-11-jre-headless"
+"openjdk-11-demo"
+"openjdk-11-doc"
 "swig"
 "cppman"
 "dialog"
@@ -312,6 +317,9 @@ post_process()
 
 	user="$(id -un 1000)"
 	home="$(getent passwd 1000 | cut -d: -f6)"
+
+	# java
+	update-java-alternatives --auto
 
 	# virtualenvwrapper for python3
 	PIP_REQUIRE_VIRTUALENV="false" pip3 install --system virtualenvwrapper virtualenv
