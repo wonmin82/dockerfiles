@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e -x
-
 list_install_tasks=(
 "openssh-server"
 )
