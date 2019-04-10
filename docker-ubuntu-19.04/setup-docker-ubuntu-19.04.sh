@@ -224,8 +224,6 @@ pre_process()
 
 	rm -f /etc/apt/apt.conf.d/docker-clean
 
-	sudo bash -c 'echo "    IPQoS lowdelay throughput" >> /etc/ssh/ssh_config' && sudo sed -i "/VersionAddendum.*/a IPQoS 0x00" /etc/ssh/sshd_config
-
 	user="$(id -un 1000)"
 	home="$(getent passwd 1000 | cut -d: -f6)"
 
