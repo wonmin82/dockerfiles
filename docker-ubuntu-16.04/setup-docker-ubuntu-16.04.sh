@@ -223,7 +223,7 @@ install_prerequisites()
 add_ppa()
 {
 	# oracle java
-	add-apt-repository ppa:webupd8team/java < /dev/null
+	# add-apt-repository ppa:webupd8team/java < /dev/null
 
 	# mono
 	retry apt-key adv \
@@ -309,7 +309,7 @@ main()
 	install_prerequisites
 	add_ppa
 	fetch_all
-	install_java
+	# install_java
 	install_all
 	post_process
 }

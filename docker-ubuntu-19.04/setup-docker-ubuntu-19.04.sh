@@ -247,7 +247,7 @@ install_prerequisites()
 add_ppa()
 {
 	# oracle java
-	add-apt-repository --no-update ppa:webupd8team/java < /dev/null
+	# add-apt-repository --no-update ppa:webupd8team/java < /dev/null
 
 	# node.js v8.x manual installation
 	curl -sSL --retry 10 --retry-connrefused --retry-delay 3 \
@@ -353,7 +353,7 @@ main()
 	install_prerequisites
 	add_ppa
 	fetch_all
-	install_java
+	# install_java
 	install_all
 	post_process
 }
