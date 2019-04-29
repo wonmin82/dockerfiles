@@ -125,6 +125,7 @@ list_install_pkgs=(
 "vim"
 "exuberant-ctags"
 "cscope"
+"ack-grep"
 "gettext"
 "doxygen"
 "graphviz"
