@@ -255,7 +255,7 @@ add_ppa()
 		https://deb.nodesource.com/setup_10.x | bash -
 
 	# golang
-	add-apt-repository --no-update ppa:longsleep/golang-backports
+	add-apt-repository --no-update ppa:longsleep/golang-backports < /dev/null
 
 	# mono
 	retry apt-key adv \
