@@ -226,6 +226,9 @@ add_ppa()
 	# oracle java
 	# add-apt-repository ppa:webupd8team/java < /dev/null
 
+	# golang
+	add-apt-repository --no-update ppa:longsleep/golang-backports
+
 	# mono
 	retry apt-key adv \
 		--keyserver hkp://keyserver.ubuntu.com:80 \
