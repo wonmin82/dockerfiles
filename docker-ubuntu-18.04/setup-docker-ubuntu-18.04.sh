@@ -325,6 +325,8 @@ post_process()
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/buildpkg/ && ./setup.sh && popd"
 
 	sudo -u ${user} -H -i bash -c "vim"
+
+	sudo -u ${user} -H -i zsh -i -c :
 }
 
 main()
