@@ -120,6 +120,7 @@ list_install_pkgs=(
 "zsh"
 "curl"
 "git"
+"inxi"
 "htop"
 "glances"
 "vim"
