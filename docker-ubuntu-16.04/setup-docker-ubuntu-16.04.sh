@@ -110,8 +110,6 @@ list_install_pkgs=(
 "perl-doc"
 "golang"
 "nodejs"
-"nodejs-legacy"
-"npm"
 "mono-complete"
 "swig"
 "cppman"
@@ -218,8 +216,8 @@ pre_process()
 install_prerequisites()
 {
 	eval ${apt_update}
-	eval ${apt_fetch} apt-transport-https ca-certificates tasksel
-	eval ${apt_install} apt-transport-https ca-certificates tasksel
+	eval ${apt_fetch} apt-transport-https ca-certificates tasksel curl
+	eval ${apt_install} apt-transport-https ca-certificates tasksel curl
 }
 
 add_ppa()
@@ -227,8 +225,12 @@ add_ppa()
 	# oracle java
 	# add-apt-repository ppa:webupd8team/java < /dev/null
 
+	# node.js v10.x
+	curl -sL --retry 10 --retry-delay 3 \
+		https://deb.nodesource.com/setup_10.x | bash -
+
 	# golang
-	add-apt-repository --no-update ppa:longsleep/golang-backports < /dev/null
+	add-apt-repository ppa:longsleep/golang-backports < /dev/null
 
 	# mono
 	retry apt-key adv \
