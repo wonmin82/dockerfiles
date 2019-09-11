@@ -58,8 +58,6 @@ RUN sudo chown ${user}:${user} /home/${user}/setup-docker-ubuntu-16.04.sh && \
 		zsh -c "sudo aptitude -y clean" && \
 		zsh -c "sudo aptitude -y purge \$( dpkg --get-selections | grep deinstall | cut -f1 )"
 
-RUN sudo zsh -c "rm -r -f /home/${user}/tmp/"
-
 USER root
 WORKDIR /root
 
