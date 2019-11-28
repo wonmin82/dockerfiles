@@ -256,36 +256,47 @@ install_prerequisites()
 
 add_ppa()
 {
+	local flag_nodejs_auto_install=true
+	local flag_golang_auto_install=true
+
 	# oracle java
 	# add-apt-repository --no-update ppa:webupd8team/java < /dev/null
 
 	# node.js v10.x
 	# manual installation
-	curl -sSL --retry 10 --retry-connrefused --retry-delay 3 \
-		https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-	VERSION="node_10.x"
-	# DISTRO="$(lsb_release -s -c)"
-	DISTRO="bionic"
-	echo "deb https://deb.nodesource.com/$VERSION $DISTRO main" \
-		| tee /etc/apt/sources.list.d/nodesource.list
-	echo "deb-src https://deb.nodesource.com/$VERSION $DISTRO main" \
-		| tee -a /etc/apt/sources.list.d/nodesource.list
-	# TODO: After ubuntu 19.10 release, use below repository source.
-	# curl -sL --retry 10 --retry-connrefused --retry-delay 3 \
-	#     https://deb.nodesource.com/setup_10.x | bash -
+	if [[ ${flag_nodejs_auto_install} == true ]]; then
+		# TODO: After ubuntu 19.10 release, use below repository source.
+		curl -sL --retry 10 --retry-connrefused --retry-delay 3 \
+			https://deb.nodesource.com/setup_10.x | bash -
+	else
+		# manual installation
+		curl -sSL --retry 10 --retry-connrefused --retry-delay 3 \
+			https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+		VERSION="node_10.x"
+		# DISTRO="$(lsb_release -s -c)"
+		DISTRO="bionic"
+		echo "deb https://deb.nodesource.com/$VERSION $DISTRO main" \
+			| tee /etc/apt/sources.list.d/nodesource.list
+		echo "deb-src https://deb.nodesource.com/$VERSION $DISTRO main" \
+			| tee -a /etc/apt/sources.list.d/nodesource.list
+	fi
 
 	# golang
-	retry apt-key adv \
-		--keyserver hkp://keyserver.ubuntu.com:80 \
-		--recv-keys 52B59B1571A79DBC054901C0F6BC817356A3D45E
-	add-apt-repository --no-update \
-		"deb \
-		http://ppa.launchpad.net/longsleep/golang-backports/ubuntu \
-		bionic \
-		main" \
-		< /dev/null
-	# TODO: After ubuntu 19.10 release, use below repository source.
-	# add-apt-repository --no-update ppa:longsleep/golang-backports < /dev/null
+	if [[ ${flag_golang_auto_install} == true ]]; then
+		# TODO: After ubuntu 19.10 release, use below repository source.
+		add-apt-repository --no-update \
+			ppa:longsleep/golang-backports < /dev/null
+	else
+		retry apt-key adv \
+			--keyserver hkp://keyserver.ubuntu.com:80 \
+			--recv-keys 52B59B1571A79DBC054901C0F6BC817356A3D45E
+		add-apt-repository --no-update \
+			"deb \
+			http://ppa.launchpad.net/longsleep/golang-backports/ubuntu \
+			bionic \
+			main" \
+			< /dev/null
+	fi
 
 	# mono
 	retry apt-key adv \
