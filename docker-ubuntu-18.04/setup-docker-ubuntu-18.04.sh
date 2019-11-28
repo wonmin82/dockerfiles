@@ -247,9 +247,8 @@ add_ppa()
 	# add-apt-repository --no-update ppa:webupd8team/java < /dev/null
 
 	# node.js v10.x
-	# manual installation
 	if [[ ${flag_nodejs_auto_install} == true ]]; then
-		# TODO: After ubuntu 19.10 release, use below repository source.
+		# automatic installation
 		curl -sL --retry 10 --retry-connrefused --retry-delay 3 \
 			https://deb.nodesource.com/setup_10.x | bash -
 	else
@@ -267,10 +266,11 @@ add_ppa()
 
 	# golang
 	if [[ ${flag_golang_auto_install} == true ]]; then
-		# TODO: After ubuntu 19.10 release, use below repository source.
+		# automatic installation
 		add-apt-repository --no-update \
 			ppa:longsleep/golang-backports < /dev/null
 	else
+		# manual installation
 		retry apt-key adv \
 			--keyserver hkp://keyserver.ubuntu.com:80 \
 			--recv-keys 52B59B1571A79DBC054901C0F6BC817356A3D45E
@@ -283,6 +283,7 @@ add_ppa()
 	fi
 
 	# mono
+	# automatic installation
 	retry apt-key adv \
 		--keyserver hkp://keyserver.ubuntu.com:80 \
 		--recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
