@@ -11,7 +11,7 @@ docker build                                           \
 docker run                                             \
 	--detach                                           \
 	--publish=21910:22                                 \
-	--hostname=docker-ubuntu-eoan                     \
+	--hostname=docker-ubuntu-eoan                      \
 	--name=docker-ubuntu-19.10                         \
 	docker-ubuntu-19.10
 docker stop                                            \
