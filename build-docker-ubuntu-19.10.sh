@@ -19,6 +19,5 @@ docker run                                             \
 docker stop                                            \
 	docker-ubuntu-19.10
 docker tag                                             \
-	-m "Initial Ubuntu 19.10"                          \
 	docker-ubuntu-19.10                                \
 	docker-ubuntu-19.10:latest
