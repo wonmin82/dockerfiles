@@ -18,7 +18,7 @@ docker run                                             \
 	docker-ubuntu-19.10
 docker stop                                            \
 	docker-ubuntu-19.10
-docker commit                                          \
+docker tag                                             \
 	-m "Initial Ubuntu 19.10"                          \
 	docker-ubuntu-19.10                                \
-	docker-ubuntu-19.10:initial
+	docker-ubuntu-19.10:latest

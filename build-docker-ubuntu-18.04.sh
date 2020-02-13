@@ -18,7 +18,7 @@ docker run                                             \
 	docker-ubuntu-18.04
 docker stop                                            \
 	docker-ubuntu-18.04
-docker commit                                          \
+docker tag                                             \
 	-m "Initial Ubuntu 18.04"                          \
 	docker-ubuntu-18.04                                \
-	docker-ubuntu-18.04:initial
+	docker-ubuntu-18.04:latest

@@ -18,7 +18,7 @@ docker run                                             \
 	docker-ubuntu-16.04
 docker stop                                            \
 	docker-ubuntu-16.04
-docker commit                                          \
+docker tag                                             \
 	-m "Initial Ubuntu 16.04"                          \
 	docker-ubuntu-16.04                                \
-	docker-ubuntu-16.04:initial
+	docker-ubuntu-16.04:latest
