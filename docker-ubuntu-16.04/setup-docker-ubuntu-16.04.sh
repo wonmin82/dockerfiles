@@ -214,8 +214,7 @@ pre_process()
 
 	rm -f /etc/apt/apt.conf.d/docker-clean
 
-	user="$(id -un 1000)"
-	home="$(getent passwd 1000 | cut -d: -f6)"
+	home="$(getent passwd ${uid} | cut -d: -f6)"
 
 	sudo -u ${user} -H -i bash -c "mkdir -p ${home}/work/"
 
