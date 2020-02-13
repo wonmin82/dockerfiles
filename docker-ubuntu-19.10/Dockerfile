@@ -7,6 +7,10 @@ ARG gid=1000
 ARG ssh_prv_key
 ARG ssh_pub_key
 
+ENV user=${user}
+ENV uid=${uid}
+ENV gid=${gid}
+
 USER root
 WORKDIR /root
 

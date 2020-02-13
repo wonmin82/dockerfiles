@@ -313,8 +313,7 @@ post_process()
 {
 	echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
-	user="$(id -un 1000)"
-	home="$(getent passwd 1000 | cut -d: -f6)"
+	home="$(getent passwd ${uid} | cut -d: -f6)"
 
 	# virtualenvwrapper for python3
 	PIP_REQUIRE_VIRTUALENV="false" pip3 install --system virtualenvwrapper virtualenv

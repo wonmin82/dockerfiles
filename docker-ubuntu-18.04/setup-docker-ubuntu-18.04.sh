@@ -362,8 +362,7 @@ post_process()
 {
 	echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
-	user="$(id -un 1000)"
-	home="$(getent passwd 1000 | cut -d: -f6)"
+	home="$(getent passwd ${uid} | cut -d: -f6)"
 
 	# java
 	update-java-alternatives --auto
