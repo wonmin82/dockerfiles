@@ -19,15 +19,15 @@ RUN ln -s -f /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 RUN sed \
 		-e 's/http:\/\/archive\.ubuntu\.com\//http:\/\/kr\.archive\.ubuntu\.com\//g' \
 		-i /etc/apt/sources.list
-# RUN sed \
-#         -e 's/kr\.archive\.ubuntu\.com/mirror\.kakao\.com/g' \
-#         -i /etc/apt/sources.list && \
-#     sed \
-#         -e 's/security\.ubuntu\.com/mirror\.kakao\.com/g' \
-#         -i /etc/apt/sources.list && \
-#     sed \
-#         -e 's/extras\.ubuntu\.com/mirror\.kakao\.com/g' \
-#         -i /etc/apt/sources.list
+RUN sed \
+		-e 's/kr\.archive\.ubuntu\.com/mirror\.kakao\.com/g' \
+		-i /etc/apt/sources.list && \
+	sed \
+		-e 's/security\.ubuntu\.com/mirror\.kakao\.com/g' \
+		-i /etc/apt/sources.list && \
+	sed \
+		-e 's/extras\.ubuntu\.com/mirror\.kakao\.com/g' \
+		-i /etc/apt/sources.list
 RUN apt-get update && \
 	apt-get -y install aptitude && \
 	aptitude -y install locales apt-utils software-properties-common
