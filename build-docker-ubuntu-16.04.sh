@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-set -e -x
+set -e +x
 
 docker build                                           \
 	-t docker-ubuntu-16.04                             \
