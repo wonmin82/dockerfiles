@@ -2,7 +2,8 @@ FROM ubuntu:19.10
 MAINTAINER Wonmin Jung <wonmin82@gmail.com>
 
 ARG user="user"
-ENV user=${user}
+ARG uid=1000
+ARG gid=1000
 ARG ssh_prv_key
 ARG ssh_pub_key
 
@@ -33,7 +34,9 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
-RUN adduser --disabled-password --gecos '' --shell /bin/bash ${user} && \
+RUN addgroup --system --force-badname --gid ${gid} ${user} && \
+		adduser --disabled-password --gecos '' --shell /bin/bash \
+				--force-badname --uid ${uid} --gid ${gid} ${user} && \
 		adduser ${user} sudo && \
 		sed -i.bkp -e \
 				's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' \
