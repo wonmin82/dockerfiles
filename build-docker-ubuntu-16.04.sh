@@ -12,6 +12,7 @@ docker build                                           \
 	$PWD/docker-ubuntu-16.04
 docker run                                             \
 	--detach                                           \
+	--ulimit memlock=67108864                          \
 	--publish=21604:22                                 \
 	--hostname=docker-ubuntu-xenial                    \
 	--name=docker-ubuntu-16.04                         \

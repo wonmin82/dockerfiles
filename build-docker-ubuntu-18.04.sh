@@ -12,6 +12,7 @@ docker build                                           \
 	$PWD/docker-ubuntu-18.04
 docker run                                             \
 	--detach                                           \
+	--ulimit memlock=67108864                          \
 	--publish=21804:22                                 \
 	--hostname=docker-ubuntu-bionic                    \
 	--name=docker-ubuntu-18.04                         \
