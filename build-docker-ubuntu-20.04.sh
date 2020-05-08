@@ -12,7 +12,6 @@ docker build \
 	$PWD/docker-ubuntu-20.04
 docker run \
 	--detach \
-	--ulimit memlock=67108864 \
 	--publish=22004:22 \
 	--hostname=docker-ubuntu-focal \
 	--name=docker-ubuntu-20.04 \

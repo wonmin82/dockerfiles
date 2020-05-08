@@ -12,7 +12,6 @@ docker build \
 	$PWD/docker-ubuntu-19.10
 docker run \
 	--detach \
-	--ulimit memlock=67108864 \
 	--publish=21910:22 \
 	--hostname=docker-ubuntu-eoan \
 	--name=docker-ubuntu-19.10 \
