@@ -1,7 +1,7 @@
 #!/bin/bash
 
 list_install_tasks=(
-"openssh-server"
+	"openssh-server"
 )
 
 list_uninstall_pkgs=(
@@ -12,171 +12,171 @@ list_prohibit_pkgs=(
 )
 
 list_install_pkgs=(
-"build-essential"
-"libboost-all-dev"
-"libboost-doc"
-"man-db"
-"manpages"
-"manpages-dev"
-"manpages-posix"
-"manpages-posix-dev"
-"cppman"
-"flex"
-"flex-doc"
-"bison"
-"bison-doc"
-"bisonc++"
-"bisonc++-doc"
-"automake"
-"autotools-dev"
-"autoconf"
-"autopoint"
-"libtool"
-"cmake"
-"doxygen"
-"graphviz"
-"pandoc"
-"asciidoc"
-"cpp"
-"gcc"
-"g++"
-"gfortran"
-"gcj-jdk"
-"gobjc"
-"gobjc++"
-"gnat"
-"gdc"
-"libgcj-common"
-"libgcj-bc"
-"gcc-multilib"
-"gfortran-multilib"
-"g++-multilib"
-"gobjc++-multilib"
-"gobjc-multilib"
-"gdb"
-"clang"
-"clang-format"
-"clang-tidy"
-"libclang-dev"
-"libclang1"
-"libllvm-ocaml-dev"
-"lldb"
-"llvm"
-"llvm-dev"
-"llvm-runtime"
-"clang-3.8"
-"clang-3.8-doc"
-"clang-3.8-examples"
-"clang-format-3.8"
-"clang-tidy-3.8"
-"libclang-3.8-dev"
-"libclang-common-3.8-dev"
-"libclang1-3.8"
-"libclang1-3.8-dbg"
-"liblldb-3.8"
-"liblldb-3.8-dbg"
-"liblldb-3.8-dev"
-"libllvm-3.8-ocaml-dev"
-"libllvm3.8"
-"libllvm3.8-dbg"
-"lldb-3.8"
-"lldb-3.8-dev"
-"llvm-3.8"
-"llvm-3.8-dev"
-"llvm-3.8-doc"
-"llvm-3.8-examples"
-"llvm-3.8-runtime"
-"python-clang-3.8"
-"python-lldb-3.8"
-"php-all-dev"
-"python-all"
-"python-dev"
-"python-all-dev"
-"python-virtualenv"
-"python-pip"
-"python-sphinx"
-"python-pep8"
-"python-autopep8"
-"python-flake8"
-"python-doc"
-"python3-all"
-"python3-dev"
-"python3-all-dev"
-"python3-virtualenv"
-"python3-pip"
-"python3-sphinx"
-"python3-pep8"
-"python3-flake8"
-"python3-doc"
-"flake8"
-"virtualenv"
-"virtualenvwrapper"
-# need to be checked for existence when ubuntu is upgraded {
-"ruby-full"
-"ruby2.3-doc"
-# }
-"rustc"
-"cargo"
-"perl"
-"perl-doc"
-"golang"
-"nodejs"
-"mono-complete"
-"swig"
-"gettext"
-"dialog"
-"vim"
-"vim-doc"
-"exuberant-ctags"
-"cscope"
-"ack-grep"
-"zsh"
-"inxi"
-"htop"
-"glances"
-"nmon"
-"tree"
-"mc"
-"tmux"
-"nmap"
-"cvs"
-"subversion"
-"subversion-tools"
-"sudo"
-"curl"
-"git-all"
-"git-arch"
-"git-core"
-"git-cvs"
-"git-daemon-sysvinit"
-"git-doc"
-"git-email"
-"git-gui"
-"git-svn"
-"gitk"
-"gitweb"
-"tig"
-"mercurial"
-"libffi-dev"
-"libncurses5"
-"libncurses5-dev"
-"libncursesw5"
-"libncursesw5-dev"
-"e2fslibs-dev"
-"libglib2.0-dev"
-"libgnutls-dev"
-"libssh2-1-dev"
-"libslang2-dev"
-"libevent-dev"
-"libedit-dev"
-"libcurl4-openssl-dev"
-# build dependency for vim {
-"lua5.2"
-"liblua5.2-dev"
-"tcl8.6"
-"tcl8.6-dev"
-"libperl-dev"
-# }
+	"build-essential"
+	"libboost-all-dev"
+	"libboost-doc"
+	"man-db"
+	"manpages"
+	"manpages-dev"
+	"manpages-posix"
+	"manpages-posix-dev"
+	"cppman"
+	"flex"
+	"flex-doc"
+	"bison"
+	"bison-doc"
+	"bisonc++"
+	"bisonc++-doc"
+	"automake"
+	"autotools-dev"
+	"autoconf"
+	"autopoint"
+	"libtool"
+	"cmake"
+	"doxygen"
+	"graphviz"
+	"pandoc"
+	"asciidoc"
+	"cpp"
+	"gcc"
+	"g++"
+	"gfortran"
+	"gcj-jdk"
+	"gobjc"
+	"gobjc++"
+	"gnat"
+	"gdc"
+	"libgcj-common"
+	"libgcj-bc"
+	"gcc-multilib"
+	"gfortran-multilib"
+	"g++-multilib"
+	"gobjc++-multilib"
+	"gobjc-multilib"
+	"gdb"
+	"clang"
+	"clang-format"
+	"clang-tidy"
+	"libclang-dev"
+	"libclang1"
+	"libllvm-ocaml-dev"
+	"lldb"
+	"llvm"
+	"llvm-dev"
+	"llvm-runtime"
+	"clang-3.8"
+	"clang-3.8-doc"
+	"clang-3.8-examples"
+	"clang-format-3.8"
+	"clang-tidy-3.8"
+	"libclang-3.8-dev"
+	"libclang-common-3.8-dev"
+	"libclang1-3.8"
+	"libclang1-3.8-dbg"
+	"liblldb-3.8"
+	"liblldb-3.8-dbg"
+	"liblldb-3.8-dev"
+	"libllvm-3.8-ocaml-dev"
+	"libllvm3.8"
+	"libllvm3.8-dbg"
+	"lldb-3.8"
+	"lldb-3.8-dev"
+	"llvm-3.8"
+	"llvm-3.8-dev"
+	"llvm-3.8-doc"
+	"llvm-3.8-examples"
+	"llvm-3.8-runtime"
+	"python-clang-3.8"
+	"python-lldb-3.8"
+	"php-all-dev"
+	"python-all"
+	"python-dev"
+	"python-all-dev"
+	"python-virtualenv"
+	"python-pip"
+	"python-sphinx"
+	"python-pep8"
+	"python-autopep8"
+	"python-flake8"
+	"python-doc"
+	"python3-all"
+	"python3-dev"
+	"python3-all-dev"
+	"python3-virtualenv"
+	"python3-pip"
+	"python3-sphinx"
+	"python3-pep8"
+	"python3-flake8"
+	"python3-doc"
+	"flake8"
+	"virtualenv"
+	"virtualenvwrapper"
+	# need to be checked for existence when ubuntu is upgraded {
+	"ruby-full"
+	"ruby2.3-doc"
+	# }
+	"rustc"
+	"cargo"
+	"perl"
+	"perl-doc"
+	"golang"
+	"nodejs"
+	"mono-complete"
+	"swig"
+	"gettext"
+	"dialog"
+	"vim"
+	"vim-doc"
+	"exuberant-ctags"
+	"cscope"
+	"ack-grep"
+	"zsh"
+	"inxi"
+	"htop"
+	"glances"
+	"nmon"
+	"tree"
+	"mc"
+	"tmux"
+	"nmap"
+	"cvs"
+	"subversion"
+	"subversion-tools"
+	"sudo"
+	"curl"
+	"git-all"
+	"git-arch"
+	"git-core"
+	"git-cvs"
+	"git-daemon-sysvinit"
+	"git-doc"
+	"git-email"
+	"git-gui"
+	"git-svn"
+	"gitk"
+	"gitweb"
+	"tig"
+	"mercurial"
+	"libffi-dev"
+	"libncurses5"
+	"libncurses5-dev"
+	"libncursesw5"
+	"libncursesw5-dev"
+	"e2fslibs-dev"
+	"libglib2.0-dev"
+	"libgnutls-dev"
+	"libssh2-1-dev"
+	"libslang2-dev"
+	"libevent-dev"
+	"libedit-dev"
+	"libcurl4-openssl-dev"
+	# build dependency for vim {
+	"lua5.2"
+	"liblua5.2-dev"
+	"tcl8.6"
+	"tcl8.6-dev"
+	"libperl-dev"
+	# }
 )
 
 apt_update="retry aptitude update"
@@ -184,8 +184,7 @@ apt_fetch="retry aptitude -y --with-recommends --download-only install"
 apt_install="aptitude -y --with-recommends install"
 apt_remove="aptitude -y purge"
 
-retry()
-{
+retry() {
 	local nTrys=0
 	local maxTrys=50
 	local delayBtwnTrys=3
@@ -205,8 +204,7 @@ retry()
 	done
 }
 
-pre_process()
-{
+pre_process() {
 	echo "dash dash/sh boolean false" | debconf-set-selections
 	dpkg-reconfigure --frontend noninteractive dash
 
@@ -226,24 +224,22 @@ pre_process()
 
 }
 
-install_prerequisites()
-{
+install_prerequisites() {
 	eval ${apt_update}
 	eval ${apt_fetch} apt-transport-https ca-certificates tasksel curl
 	eval ${apt_install} apt-transport-https ca-certificates tasksel curl
 }
 
-add_ppa()
-{
+add_ppa() {
 	# oracle java
-	# add-apt-repository ppa:webupd8team/java < /dev/null
+	# add-apt-repository ppa:webupd8team/java </dev/null
 
 	# node.js v10.x
 	curl -sL --retry 10 --retry-delay 3 \
 		https://deb.nodesource.com/setup_10.x | bash -
 
 	# golang
-	add-apt-repository ppa:longsleep/golang-backports < /dev/null
+	add-apt-repository ppa:longsleep/golang-backports </dev/null
 
 	# mono
 	retry apt-key adv \
@@ -252,14 +248,13 @@ add_ppa()
 	echo "deb \
 		https://download.mono-project.com/repo/ubuntu \
 		stable-xenial \
-		main" \
-		| tee /etc/apt/sources.list.d/mono-official-stable.list
+		main" |
+		tee /etc/apt/sources.list.d/mono-official-stable.list
 
 	eval ${apt_update}
 }
 
-install_java()
-{
+install_java() {
 	ORACLE_JAVA_PKG_PREFIX="oracle-java8"
 	eval ${apt_fetch} \
 		${ORACLE_JAVA_PKG_PREFIX}-installer \
@@ -267,7 +262,7 @@ install_java()
 		${ORACLE_JAVA_PKG_PREFIX}-unlimited-jce-policy
 	lastStatus=65536
 	until [[ ${lastStatus} == 0 ]]; do
-		if (( lastStatus != 65536 )); then
+		if ((lastStatus != 65536)); then
 			eval ${apt_remove} \
 				${ORACLE_JAVA_PKG_PREFIX}-installer \
 				${ORACLE_JAVA_PKG_PREFIX}-set-default \
@@ -284,8 +279,7 @@ install_java()
 	done
 }
 
-fetch_all()
-{
+fetch_all() {
 	for task in "${list_install_tasks[@]}"; do
 		list_pkg=($(tasksel --task-packages ${task}))
 		eval ${apt_fetch} ${list_pkg[@]}
@@ -294,8 +288,7 @@ fetch_all()
 	eval ${apt_fetch} ${list_install_pkgs[@]}
 }
 
-install_all()
-{
+install_all() {
 	for task in "${list_install_tasks[@]}"; do
 		list_pkg=($(tasksel --task-packages ${task}))
 		eval ${apt_install} ${list_pkg[@]}
@@ -308,8 +301,7 @@ install_all()
 	eval ${apt_install} ${list_install_pkgs[@]}
 }
 
-post_process()
-{
+post_process() {
 	echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
 	home="$(getent passwd ${uid} | cut -d: -f6)"
@@ -322,8 +314,7 @@ post_process()
 	sudo -u ${user} -H -i bash -c "vim"
 }
 
-main()
-{
+main() {
 	pre_process
 	install_prerequisites
 	add_ppa
