@@ -246,7 +246,7 @@ install_prerequisites() {
 
 add_ppa() {
 	local flag_nodejs_auto_install=true
-	local flag_golang_auto_install=true
+	local flag_golang_auto_install=false
 
 	# oracle java
 	# add-apt-repository --no-update ppa:webupd8team/java </dev/null
@@ -280,22 +280,22 @@ add_ppa() {
 	fi
 
 	# golang
-	# if [[ ${flag_golang_auto_install} == true ]]; then
-	#     # automatic installation
-	#     add-apt-repository --no-update \
-	#         ppa:longsleep/golang-backports </dev/null
-	# else
-	#     # manual installation
-	#     retry apt-key adv \
-	#         --keyserver hkp://keyserver.ubuntu.com:80 \
-	#         --recv-keys 52B59B1571A79DBC054901C0F6BC817356A3D45E
-	#     add-apt-repository --no-update \
-	#         "deb \
-	#         http://ppa.launchpad.net/longsleep/golang-backports/ubuntu \
-	#         focal \
-	#         main" \
-	#         </dev/null
-	# fi
+	if [[ ${flag_golang_auto_install} == true ]]; then
+		# automatic installation
+		add-apt-repository --no-update \
+			ppa:longsleep/golang-backports </dev/null
+	else
+		# manual installation
+		retry apt-key adv \
+			--keyserver hkp://keyserver.ubuntu.com:80 \
+			--recv-keys 52B59B1571A79DBC054901C0F6BC817356A3D45E
+		add-apt-repository --no-update \
+			"deb \
+			http://ppa.launchpad.net/longsleep/golang-backports/ubuntu \
+			bionic \
+			main" \
+			</dev/null
+	fi
 
 	# mono
 	# automatic installation
