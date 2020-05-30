@@ -216,7 +216,8 @@ pre_process() {
 
 	sudo -u ${user} -H -i bash -c "mkdir -p ${home}/work/"
 
-	sudo -u ${user} -H -i bash -c "git clone https://github.com/wonmin82/dotfiles.git ${home}/work/dotfiles/"
+	sudo -u ${user} -H -i bash -c "ssh-keyscan -H github.com >> ~/.ssh/known_hosts"
+	sudo -u ${user} -H -i bash -c "git clone ssh://git@github.com/wonmin82/dotfiles.git ${home}/work/dotfiles/"
 
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/ && ./install-ubuntu-config.sh --system && popd"
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/ && ./install-zsh-config.sh && popd"
