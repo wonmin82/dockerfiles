@@ -33,6 +33,7 @@ list_install_pkgs=(
 	"autopoint"
 	"libtool"
 	"cmake"
+	"ninja-build"
 	"doxygen"
 	"graphviz"
 	"pandoc"
