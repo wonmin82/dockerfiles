@@ -176,6 +176,7 @@ list_install_pkgs=(
 	"gitweb"
 	"tig"
 	"mercurial"
+	"moreutils"
 	"libffi-dev"
 	"libncurses5"
 	"libncurses5-dev"
