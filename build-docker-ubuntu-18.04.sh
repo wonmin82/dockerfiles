@@ -2,6 +2,8 @@
 
 set -e +x
 
+ssh_port=13022
+
 docker build \
 	-t docker-ubuntu-18.04 \
 	--build-arg user="${USER}" \
@@ -12,7 +14,7 @@ docker build \
 	$PWD/docker-ubuntu-18.04
 docker run \
 	--detach \
-	--publish=21804:22 \
+	--publish=${ssh_port}:22 \
 	--hostname=docker-ubuntu-bionic \
 	--name=docker-ubuntu-18.04 \
 	docker-ubuntu-18.04

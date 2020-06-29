@@ -2,6 +2,8 @@
 
 set -e +x
 
+ssh_port=12022
+
 docker build \
 	-t docker-ubuntu-19.10 \
 	--build-arg user="${USER}" \
@@ -12,7 +14,7 @@ docker build \
 	$PWD/docker-ubuntu-19.10
 docker run \
 	--detach \
-	--publish=21910:22 \
+	--publish=${ssh_port}:22 \
 	--hostname=docker-ubuntu-eoan \
 	--name=docker-ubuntu-19.10 \
 	docker-ubuntu-19.10

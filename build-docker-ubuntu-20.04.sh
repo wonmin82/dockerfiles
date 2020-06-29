@@ -2,6 +2,8 @@
 
 set -e +x
 
+ssh_port=11022
+
 docker build \
 	-t docker-ubuntu-20.04 \
 	--build-arg user="${USER}" \
@@ -12,7 +14,7 @@ docker build \
 	$PWD/docker-ubuntu-20.04
 docker run \
 	--detach \
-	--publish=22004:22 \
+	--publish=${ssh_port}:22 \
 	--hostname=docker-ubuntu-focal \
 	--name=docker-ubuntu-20.04 \
 	docker-ubuntu-20.04
