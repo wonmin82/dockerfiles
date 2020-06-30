@@ -14,6 +14,7 @@ docker build \
 	$PWD/docker-ubuntu-20.04
 docker run \
 	--detach \
+	--restart unless-stopped \
 	--publish=${ssh_port}:22 \
 	--hostname=docker-ubuntu-focal \
 	--name=docker-ubuntu-20.04 \
