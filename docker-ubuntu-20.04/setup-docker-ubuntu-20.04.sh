@@ -248,7 +248,7 @@ install_prerequisites() {
 
 add_ppa() {
 	local flag_nodejs_auto_install=true
-	local flag_golang_auto_install=false
+	local flag_golang_auto_install=true
 
 	# oracle java
 	# add-apt-repository --no-update ppa:webupd8team/java </dev/null
@@ -294,7 +294,7 @@ add_ppa() {
 		add-apt-repository --no-update \
 			"deb \
 			http://ppa.launchpad.net/longsleep/golang-backports/ubuntu \
-			bionic \
+			focal \
 			main" \
 			</dev/null
 	fi
