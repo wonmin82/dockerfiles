@@ -198,6 +198,12 @@ list_install_pkgs=(
 	# }
 )
 
+list_install_python_pkgs=(
+	"virtualenv"
+	"virtualenvwrapper"
+	"black"
+)
+
 apt_update="retry aptitude update"
 apt_fetch="retry aptitude -y --with-recommends --download-only install"
 apt_install="aptitude -y --with-recommends install"
@@ -364,6 +370,11 @@ install_all() {
 	eval ${apt_install} ${list_install_pkgs[@]}
 }
 
+install_python_pkgs() {
+	PIP_REQUIRE_VIRTUALENV="false" pip3 install --system \
+		${list_install_python_pkgs[@]}
+}
+
 post_process() {
 	echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
@@ -371,9 +382,6 @@ post_process() {
 
 	# java
 	update-java-alternatives --auto
-
-	# virtualenvwrapper for python3
-	PIP_REQUIRE_VIRTUALENV="false" pip3 install --system virtualenvwrapper virtualenv
 
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/buildpkg/ && ./setup.sh && popd"
 
@@ -387,6 +395,7 @@ main() {
 	fetch_all
 	# install_java
 	install_all
+	install_python_pkgs
 	post_process
 }
 

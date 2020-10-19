@@ -119,6 +119,7 @@ list_install_pkgs=(
 	"python3-flake8"
 	"python3-doc"
 	"flake8"
+	"black"
 	"virtualenv"
 	"virtualenvwrapper"
 	# need to be checked for existence when ubuntu is upgraded {
@@ -192,6 +193,11 @@ list_install_pkgs=(
 	"tcl8.6-dev"
 	"libperl-dev"
 	# }
+)
+
+list_install_python_pkgs=(
+	"virtualenv"
+	"virtualenvwrapper"
 )
 
 apt_update="retry aptitude update"
@@ -360,6 +366,11 @@ install_all() {
 	eval ${apt_install} ${list_install_pkgs[@]}
 }
 
+install_python_pkgs() {
+	PIP_REQUIRE_VIRTUALENV="false" pip3 install --system \
+		${list_install_python_pkgs[@]}
+}
+
 post_process() {
 	echo "debconf debconf/frontend select dialog" | debconf-set-selections
 
@@ -367,9 +378,6 @@ post_process() {
 
 	# java
 	update-java-alternatives --auto
-
-	# virtualenvwrapper for python3
-	PIP_REQUIRE_VIRTUALENV="false" pip3 install --system virtualenvwrapper virtualenv
 
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/buildpkg/ && ./setup.sh && popd"
 
@@ -383,6 +391,7 @@ main() {
 	fetch_all
 	# install_java
 	install_all
+	install_python_pkgs
 	post_process
 }
 
