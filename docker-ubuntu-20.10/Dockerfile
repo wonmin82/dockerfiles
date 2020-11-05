@@ -1,4 +1,4 @@
-FROM ubuntu:19.10
+FROM ubuntu:20.10
 MAINTAINER Wonmin Jung <wonmin82@gmail.com>
 
 ARG user="user"
@@ -69,12 +69,12 @@ RUN mkdir -p /home/${user}/.ssh && \
 	chmod 400 /home/${user}/.ssh/id_rsa.pub && \
 	chmod 400 /home/${user}/.ssh/authorized_keys
 
-COPY setup-docker-ubuntu-19.10.sh /home/${user}/
-RUN sudo chown ${user}:${user} /home/${user}/setup-docker-ubuntu-19.10.sh && \
-	chmod a+x /home/${user}/setup-docker-ubuntu-19.10.sh && \
+COPY setup-docker-ubuntu-20.10.sh /home/${user}/
+RUN sudo chown ${user}:${user} /home/${user}/setup-docker-ubuntu-20.10.sh && \
+	chmod a+x /home/${user}/setup-docker-ubuntu-20.10.sh && \
 	zsh -c "sudo user=${user} uid=${uid} gid=${gid} \
-		/home/${user}/setup-docker-ubuntu-19.10.sh" && \
-	rm -f /home/${user}/setup-docker-ubuntu-19.10.sh && \
+		/home/${user}/setup-docker-ubuntu-20.10.sh" && \
+	rm -f /home/${user}/setup-docker-ubuntu-20.10.sh && \
 	zsh -c "sudo aptitude -y clean" && \
 	zsh -c "sudo aptitude -y purge \$( dpkg --get-selections | grep deinstall | cut -f1 )"
 

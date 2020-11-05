@@ -53,7 +53,7 @@ list_install_pkgs=(
 	"gobjc-multilib"
 	"gdb"
 	# llvm package list taken from following URL
-	# https://packages.ubuntu.com/source/eoan/llvm-defaults
+	# https://packages.ubuntu.com/source/groovy/llvm-defaults
 	# {
 	"clang"
 	"clang-format"
@@ -76,6 +76,8 @@ list_install_pkgs=(
 	"llvm-runtime"
 	"python-clang"
 	"python-lldb"
+	"python3-clang"
+	"python3-lldb"
 	# }
 	# {
 	"libllvm-11-ocaml-dev"
@@ -103,12 +105,8 @@ list_install_pkgs=(
 	# }
 	"php-all-dev"
 	"python-all"
-	"python-dev"
 	"python-all-dev"
-	"python-virtualenv"
-	"python-pip"
-	"python-sphinx"
-	"python-doc"
+	"python-dev-is-python3"
 	"python3-all"
 	"python3-dev"
 	"python3-all-dev"
@@ -121,7 +119,7 @@ list_install_pkgs=(
 	"virtualenvwrapper"
 	# need to be checked for existence when ubuntu is upgraded {
 	"ruby-full"
-	"ruby2.5-doc"
+	"ruby2.7-doc"
 	# }
 	"rustc"
 	"cargo"
@@ -246,7 +244,7 @@ install_prerequisites() {
 
 add_ppa() {
 	local flag_nodejs_auto_install=true
-	local flag_golang_auto_install=true
+	local flag_golang_auto_install=false
 
 	# oracle java
 	# add-apt-repository --no-update ppa:webupd8team/java </dev/null
@@ -255,7 +253,7 @@ add_ppa() {
 	wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 	VERSION="11"
 	# DISTRO="$(lsb_release -s -c)"
-	DISTRO="eoan"
+	DISTRO="groovy"
 	echo "deb http://apt.llvm.org/$DISTRO/ llvm-toolchain-$DISTRO-$VERSION main" |
 		tee /etc/apt/sources.list.d/llvm.list
 	echo "deb-src http://apt.llvm.org/$DISTRO/ llvm-toolchain-$DISTRO-$VERSION main" |
@@ -265,14 +263,14 @@ add_ppa() {
 	if [[ ${flag_nodejs_auto_install} == true ]]; then
 		# automatic installation
 		curl -sL --retry 10 --retry-connrefused --retry-delay 3 \
-			https://deb.nodesource.com/setup_10.x | bash -
+			https://deb.nodesource.com/setup_12.x | bash -
 	else
 		# manual installation
 		curl -sSL --retry 10 --retry-connrefused --retry-delay 3 \
 			https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-		VERSION="node_10.x"
+		VERSION="node_12.x"
 		# DISTRO="$(lsb_release -s -c)"
-		DISTRO="bionic"
+		DISTRO="groovy"
 		echo "deb https://deb.nodesource.com/$VERSION $DISTRO main" |
 			tee /etc/apt/sources.list.d/nodesource.list
 		echo "deb-src https://deb.nodesource.com/$VERSION $DISTRO main" |
@@ -292,7 +290,7 @@ add_ppa() {
 		add-apt-repository --no-update \
 			"deb \
 			http://ppa.launchpad.net/longsleep/golang-backports/ubuntu \
-			bionic \
+			focal \
 			main" \
 			</dev/null
 	fi
@@ -304,7 +302,7 @@ add_ppa() {
 		--recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
 	echo "deb \
 		https://download.mono-project.com/repo/ubuntu \
-		stable-bionic \
+		stable-focal \
 		main" |
 		tee /etc/apt/sources.list.d/mono-official-stable.list
 
