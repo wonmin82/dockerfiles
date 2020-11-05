@@ -259,7 +259,7 @@ add_ppa() {
 	echo "deb-src http://apt.llvm.org/$DISTRO/ llvm-toolchain-$DISTRO-$VERSION main" |
 		tee -a /etc/apt/sources.list.d/llvm.list
 
-	# node.js v10.x
+	# node.js v12.x
 	if [[ ${flag_nodejs_auto_install} == true ]]; then
 		# automatic installation
 		curl -sL --retry 10 --retry-connrefused --retry-delay 3 \
