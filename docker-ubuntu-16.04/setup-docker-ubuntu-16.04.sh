@@ -154,6 +154,7 @@ list_install_pkgs=(
 	"tig"
 	"mercurial"
 	"moreutils"
+	"parallel"
 	"libffi-dev"
 	"libncurses5"
 	"libncurses5-dev"
