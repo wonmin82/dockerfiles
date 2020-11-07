@@ -12,6 +12,7 @@ list_prohibit_pkgs=(
 )
 
 list_install_pkgs=(
+	"sudo"
 	"build-essential"
 	"libboost-all-dev"
 	"libboost-doc"
@@ -138,7 +139,6 @@ list_install_pkgs=(
 	"cvs"
 	"subversion"
 	"subversion-tools"
-	"sudo"
 	"curl"
 	"git-all"
 	"git-arch"
