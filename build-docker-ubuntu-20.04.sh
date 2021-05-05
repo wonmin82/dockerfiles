@@ -2,7 +2,7 @@
 
 set -e +x
 
-ssh_port=12022
+ssh_port=13022
 
 docker build \
 	-t docker-ubuntu-20.04 \
