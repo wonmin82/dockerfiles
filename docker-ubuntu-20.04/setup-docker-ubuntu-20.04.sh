@@ -247,6 +247,7 @@ install_prerequisites() {
 add_ppa() {
 	local flag_nodejs_auto_install=true
 	local flag_golang_auto_install=true
+	local flag_hstr_auto_install=true
 
 	# oracle java
 	# add-apt-repository --no-update ppa:webupd8team/java </dev/null
@@ -308,7 +309,26 @@ add_ppa() {
 		main" |
 		tee /etc/apt/sources.list.d/mono-official-stable.list
 
-	add-apt-repository --no-update ppa:ultradvorka/ppa </dev/null
+	# hstr
+	if [[ ${flag_hstr_auto_install} == true ]]; then
+		# automatic installation
+		add-apt-repository --no-update \
+			ppa:ultradvorka/ppa </dev/null
+	else
+		# manual installation
+		retry apt-key adv \
+			--keyserver hkp://keyserver.ubuntu.com:80 \
+			--recv-keys 1E841C1E5C04D97ABFF8FCB63A9508A2CC6FC1EB
+		DISTRO="$(lsb_release -s -c)"
+		echo "deb http://ppa.launchpad.net/ultradvorka/ppa/ubuntu \
+			${DISTRO} \
+			main" |
+			tee /etc/apt/sources.list.d/ultradvorka.list
+		echo "deb-src http://ppa.launchpad.net/ultradvorka/ppa/ubuntu \
+			${DISTRO} \
+			main" |
+			tee -a /etc/apt/sources.list.d/ultradvorka.list
+	fi
 
 	eval ${apt_update}
 }

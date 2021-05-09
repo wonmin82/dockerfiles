@@ -248,6 +248,7 @@ install_prerequisites() {
 add_ppa() {
 	local flag_nodejs_auto_install=true
 	local flag_golang_auto_install=true
+	local flag_hstr_auto_install=false
 
 	# remove multiverse from source http://archive.canonical.com/ubuntu
 	local buf_src=$(cat /etc/apt/sources.list | grep -e "^deb http://archive.canonical.com/ubuntu" | head -n 1)
@@ -314,8 +315,27 @@ add_ppa() {
 		main" |
 		tee /etc/apt/sources.list.d/mono-official-stable.list
 
-	# ppa:ultradvorka for hirsute (21.04) is not ready yet.
-	# add-apt-repository --no-update ppa:ultradvorka/ppa </dev/null
+	# hstr
+	if [[ ${flag_hstr_auto_install} == true ]]; then
+		# automatic installation
+		add-apt-repository --yes --no-update \
+			ppa:ultradvorka/ppa </dev/null
+	else
+		# manual installation
+		retry apt-key adv \
+			--keyserver hkp://keyserver.ubuntu.com:80 \
+			--recv-keys 1E841C1E5C04D97ABFF8FCB63A9508A2CC6FC1EB
+		# DISTRO="$(lsb_release -s -c)"
+		DISTRO="focal"
+		echo "deb http://ppa.launchpad.net/ultradvorka/ppa/ubuntu \
+			${DISTRO} \
+			main" |
+			tee /etc/apt/sources.list.d/ultradvorka.list
+		echo "deb-src http://ppa.launchpad.net/ultradvorka/ppa/ubuntu \
+			${DISTRO} \
+			main" |
+			tee -a /etc/apt/sources.list.d/ultradvorka.list
+	fi
 
 	eval ${apt_update}
 }
