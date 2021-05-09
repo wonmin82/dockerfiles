@@ -188,6 +188,7 @@ list_install_pkgs=(
 	"tcl8.6"
 	"tcl8.6-dev"
 	"libperl-dev"
+	"hstr"
 	# }
 )
 
@@ -306,6 +307,8 @@ add_ppa() {
 		stable-focal \
 		main" |
 		tee /etc/apt/sources.list.d/mono-official-stable.list
+
+	add-apt-repository --no-update ppa:ultradvorka/ppa </dev/null
 
 	eval ${apt_update}
 }
