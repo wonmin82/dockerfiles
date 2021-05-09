@@ -230,7 +230,7 @@ install_prerequisites() {
 	eval ${apt_install} apt-transport-https ca-certificates tasksel curl
 }
 
-add_ppa() {
+add_repo() {
 	# oracle java
 	# add-apt-repository ppa:webupd8team/java </dev/null
 
@@ -316,7 +316,7 @@ post_process() {
 main() {
 	pre_process
 	install_prerequisites
-	add_ppa
+	add_repo
 	fetch_all
 	# install_java
 	install_all

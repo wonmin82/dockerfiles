@@ -245,7 +245,7 @@ install_prerequisites() {
 	eval ${apt_install} apt-transport-https ca-certificates tasksel curl
 }
 
-add_ppa() {
+add_repo() {
 	local flag_nodejs_auto_install=true
 	local flag_golang_auto_install=true
 	local flag_hstr_auto_install=false
@@ -403,7 +403,7 @@ post_process() {
 main() {
 	pre_process
 	install_prerequisites
-	add_ppa
+	add_repo
 	fetch_all
 	# install_java
 	install_all
