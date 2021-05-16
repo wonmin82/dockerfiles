@@ -217,6 +217,25 @@ retry() {
 	done
 }
 
+gpg_init() {
+	# Make sure that the /root/.gnupg is exist
+	gpg --update-trustdb
+}
+
+gpg_get_repo_key() {
+	gpg \
+		--no-default-keyring \
+		--keyring /tmp/archive-keyring.gpg \
+		--keyserver hkp://keyserver.ubuntu.com:80 \
+		--recv-keys $1
+	gpg \
+		--no-default-keyring \
+		--keyring /tmp/archive-keyring.gpg \
+		--output $2 \
+		--export $1
+	rm -f /tmp/archive-keyring.gpg
+}
+
 pre_process() {
 	echo "dash dash/sh boolean false" | debconf-set-selections
 	dpkg-reconfigure --frontend noninteractive dash
@@ -249,34 +268,56 @@ add_repo() {
 	local flag_golang_auto_install=false
 	local flag_hstr_auto_install=true
 
+	gpg_init
+
 	# oracle java
 	# add-apt-repository --yes --no-update ppa:webupd8team/java </dev/null
 
 	# llvm
-	wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-	VERSION="11"
-	# DISTRO="$(lsb_release -s -c)"
-	DISTRO="groovy"
-	echo "deb http://apt.llvm.org/$DISTRO/ llvm-toolchain-$DISTRO-$VERSION main" |
+	curl -sSL --retry 10 --retry-connrefused --retry-delay 3 \
+		https://apt.llvm.org/llvm-snapshot.gpg.key |
+		gpg --dearmor \
+			--output /etc/apt/trusted.gpg.d/llvm-snapshot-archive-keyring.gpg
+	LLVM_VERSION="11"
+	DISTRO="$(lsb_release -s -c)"
+	echo "deb \
+		[arch=$(dpkg --print-architecture) \
+		signed-by=/etc/apt/trusted.gpg.d/llvm-snapshot-archive-keyring.gpg] \
+		http://apt.llvm.org/${DISTRO}/ \
+		llvm-toolchain-${DISTRO}-${LLVM_VERSION} main" |
 		tee /etc/apt/sources.list.d/llvm.list
-	echo "deb-src http://apt.llvm.org/$DISTRO/ llvm-toolchain-$DISTRO-$VERSION main" |
+	echo "deb-src \
+		[arch=$(dpkg --print-architecture) \
+		signed-by=/etc/apt/trusted.gpg.d/llvm-snapshot-archive-keyring.gpg] \
+		http://apt.llvm.org/${DISTRO}/ \
+		llvm-toolchain-${DISTRO}-${LLVM_VERSION} main" |
 		tee -a /etc/apt/sources.list.d/llvm.list
 
 	# node.js v12.x
+	NODE_VERSION="12.x"
 	if [[ ${flag_nodejs_auto_install} == true ]]; then
 		# automatic installation
-		curl -sL --retry 10 --retry-connrefused --retry-delay 3 \
-			https://deb.nodesource.com/setup_12.x | bash -
+		curl -sSL --retry 10 --retry-connrefused --retry-delay 3 \
+			https://deb.nodesource.com/setup_${NODE_VERSION} | bash -
 	else
 		# manual installation
 		curl -sSL --retry 10 --retry-connrefused --retry-delay 3 \
-			https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-		VERSION="node_12.x"
-		# DISTRO="$(lsb_release -s -c)"
-		DISTRO="groovy"
-		echo "deb https://deb.nodesource.com/$VERSION $DISTRO main" |
+			https://deb.nodesource.com/gpgkey/nodesource.gpg.key |
+			gpg --dearmor \
+				--output /etc/apt/trusted.gpg.d/nodesource-archive-keyring.gpg
+		VERSION="node_${NODE_VERSION}"
+		DISTRO="$(lsb_release -s -c)"
+		echo "deb \
+			[arch=$(dpkg --print-architecture) \
+			signed-by=/etc/apt/trusted.gpg.d/nodesource-archive-keyring.gpg] \
+			https://deb.nodesource.com/${VERSION} \
+			${DISTRO} main" |
 			tee /etc/apt/sources.list.d/nodesource.list
-		echo "deb-src https://deb.nodesource.com/$VERSION $DISTRO main" |
+		echo "deb-src \
+			[arch=$(dpkg --print-architecture) \
+			signed-by=/etc/apt/trusted.gpg.d/nodesource-archive-keyring.gpg] \
+			https://deb.nodesource.com/${VERSION} \
+			${DISTRO} main" |
 			tee -a /etc/apt/sources.list.d/nodesource.list
 	fi
 
@@ -287,20 +328,30 @@ add_repo() {
 			ppa:longsleep/golang-backports </dev/null
 	else
 		# manual installation
-		retry apt-key adv \
-			--keyserver hkp://keyserver.ubuntu.com:80 \
-			--recv-keys 52B59B1571A79DBC054901C0F6BC817356A3D45E
-		add-apt-repository --yes --no-update \
-			"deb http://ppa.launchpad.net/longsleep/golang-backports/ubuntu focal main" \
-			</dev/null
+		gpg_get_repo_key \
+			52B59B1571A79DBC054901C0F6BC817356A3D45E \
+			/etc/apt/trusted.gpg.d/golang-backports-archive-keyring.gpg
+		DISTRO="focal"
+		echo "deb \
+			[arch=$(dpkg --print-architecture) \
+			signed-by=/etc/apt/trusted.gpg.d/golang-backports-archive-keyring.gpg] \
+			http://ppa.launchpad.net/longsleep/golang-backports/ubuntu \
+			${DISTRO} main" |
+			tee /etc/apt/sources.list.d/golang-backports.list
 	fi
 
 	# mono
 	# automatic installation
-	retry apt-key adv \
-		--keyserver hkp://keyserver.ubuntu.com:80 \
-		--recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-	echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" |
+	gpg_get_repo_key \
+		3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
+		/etc/apt/trusted.gpg.d/mono-archive-keyring.gpg
+	DISTRO="$(lsb_release -s -c)"
+	DISTRO="focal"
+	echo "deb \
+		[arch=$(dpkg --print-architecture) \
+		signed-by=/etc/apt/trusted.gpg.d/mono-archive-keyring.gpg] \
+		https://download.mono-project.com/repo/ubuntu \
+		stable-${DISTRO} main" |
 		tee /etc/apt/sources.list.d/mono-official-stable.list
 
 	# hstr
@@ -310,13 +361,21 @@ add_repo() {
 			ppa:ultradvorka/ppa </dev/null
 	else
 		# manual installation
-		retry apt-key adv \
-			--keyserver hkp://keyserver.ubuntu.com:80 \
-			--recv-keys 1E841C1E5C04D97ABFF8FCB63A9508A2CC6FC1EB
+		gpg_get_repo_key \
+			1E841C1E5C04D97ABFF8FCB63A9508A2CC6FC1EB \
+			/etc/apt/trusted.gpg.d/ultradvorka-archive-keyring.gpg
 		DISTRO="$(lsb_release -s -c)"
-		echo "deb http://ppa.launchpad.net/ultradvorka/ppa/ubuntu ${DISTRO} main" |
+		echo "deb \
+			[arch=$(dpkg --print-architecture) \
+			signed-by=/etc/apt/trusted.gpg.d/ultradvorka-archive-keyring.gpg] \
+			http://ppa.launchpad.net/ultradvorka/ppa/ubuntu \
+			${DISTRO} main" |
 			tee /etc/apt/sources.list.d/ultradvorka.list
-		echo "deb-src http://ppa.launchpad.net/ultradvorka/ppa/ubuntu ${DISTRO} main" |
+		echo "deb-src \
+			[arch=$(dpkg --print-architecture) \
+			signed-by=/etc/apt/trusted.gpg.d/ultradvorka-archive-keyring.gpg] \
+			http://ppa.launchpad.net/ultradvorka/ppa/ubuntu \
+			${DISTRO} main" |
 			tee -a /etc/apt/sources.list.d/ultradvorka.list
 	fi
 
