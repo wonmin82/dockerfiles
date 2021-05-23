@@ -252,7 +252,7 @@ pre_process() {
 	sudo -u ${user} -H -i bash -c "touch ${home}/.ssh/known_hosts && chmod -v 600 ${home}/.ssh/known_hosts && ssh-keyscan -H github.com >> ${home}/.ssh/known_hosts"
 	sudo -u ${user} -H -i bash -c "git clone ssh://git@github.com/wonmin82/dotfiles.git ${home}/work/dotfiles/"
 
-	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/ && ./install-ubuntu-config.sh --system && popd"
+	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/ && sudo ./install-ubuntu-config.sh && popd"
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/ && ./install-zsh-config.sh && popd"
 	sudo -u ${user} -H -i bash -c "pushd ${home}/work/dotfiles/ && ./install-vim-config.sh && popd"
 
