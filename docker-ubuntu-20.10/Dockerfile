@@ -28,7 +28,8 @@ RUN sed \
 	sed \
 		-e 's/extras\.ubuntu\.com/mirror\.kakao\.com/g' \
 		-i /etc/apt/sources.list
-RUN apt-get update && \
+RUN echo 'APT::Acquire::Retries "5";' > /etc/apt/apt.conf.d/99retries && \
+	apt-get update && \
 	apt-get -y install aptitude && \
 	aptitude -y install locales apt-utils software-properties-common
 RUN locale-gen "en_US" "en_US.UTF-8"
