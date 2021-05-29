@@ -16,6 +16,9 @@ WORKDIR /root
 
 RUN ln -s -f /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
+RUN echo 'for i in $(seq 1 5); do $* && break || sleep 5s; done' > /tmp/retry.sh && \
+	chmod a+x /tmp/retry.sh
+
 RUN sed \
 		-e 's/http:\/\/archive\.ubuntu\.com\//http:\/\/kr\.archive\.ubuntu\.com\//g' \
 		-i /etc/apt/sources.list
@@ -29,16 +32,20 @@ RUN sed \
 		-e 's/extras\.ubuntu\.com/mirror\.kakao\.com/g' \
 		-i /etc/apt/sources.list
 RUN echo 'APT::Acquire::Retries "5";' > /etc/apt/apt.conf.d/99retries && \
-	apt-get update && \
+	/tmp/retry.sh apt-get update && \
+	/tmp/retry.sh apt-get -d -y install aptitude && \
 	apt-get -y install aptitude && \
+	/tmp/retry.sh aptitude -d -y install locales apt-utils software-properties-common && \
 	aptitude -y install locales apt-utils software-properties-common
 RUN locale-gen "en_US" "en_US.UTF-8"
 ENV LANG en_US.utf8
 RUN add-apt-repository multiverse && \
-	aptitude update && \
+	/tmp/retry.sh aptitude update && \
+	/tmp/retry.sh aptitude -d -y upgrade && \
 	aptitude -y upgrade
 RUN yes | unminimize
-RUN aptitude -y install openssh-server sudo zsh git
+RUN /tmp/retry.sh aptitude -d -y install openssh-server sudo zsh git && \
+	aptitude -y install openssh-server sudo zsh git
 
 RUN mkdir /var/run/sshd
 # RUN echo 'root:default' | chpasswd
@@ -81,6 +88,8 @@ RUN sudo chown ${user}:${user} /home/${user}/setup-docker-ubuntu-20.10.sh && \
 
 USER root
 WORKDIR /root
+
+RUN rm -f /tmp/retry.sh
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
