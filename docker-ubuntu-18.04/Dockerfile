@@ -20,16 +20,16 @@ RUN echo 'for i in $(seq 1 5); do $* && break || sleep 5s; done' > /tmp/retry.sh
 	chmod a+x /tmp/retry.sh
 
 RUN sed \
-		-e 's/http:\/\/archive\.ubuntu\.com\//http:\/\/kr\.archive\.ubuntu\.com\//g' \
+		-e 's#http://archive.ubuntu.com/#http://kr.archive.ubuntu.com/#g' \
 		-i /etc/apt/sources.list
 RUN sed \
-		-e 's/kr\.archive\.ubuntu\.com/mirror\.kakao\.com/g' \
+		-e 's#http://kr.archive.ubuntu.com/#http://mirror.kakao.com/#g' \
 		-i /etc/apt/sources.list && \
 	sed \
-		-e 's/security\.ubuntu\.com/mirror\.kakao\.com/g' \
+		-e 's#http://security.ubuntu.com/#http://mirror.kakao.com/#g' \
 		-i /etc/apt/sources.list && \
 	sed \
-		-e 's/extras\.ubuntu\.com/mirror\.kakao\.com/g' \
+		-e 's#http://extras.ubuntu.com/#http://mirror.kakao.com/#g' \
 		-i /etc/apt/sources.list
 RUN echo 'APT::Acquire::Retries "5";' > /etc/apt/apt.conf.d/99retries && \
 	/tmp/retry.sh apt-get update && \
