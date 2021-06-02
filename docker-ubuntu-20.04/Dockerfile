@@ -6,6 +6,7 @@ ARG uid=1000
 ARG gid=1000
 ARG ssh_prv_key
 ARG ssh_pub_key
+ARG gitconfig
 
 ENV user=${user}
 ENV uid=${uid}
@@ -68,14 +69,26 @@ RUN addgroup --system --force-badname --gid ${gid} ${user} && \
 USER ${user}
 WORKDIR /home/${user}
 
-RUN mkdir -p /home/${user}/.ssh && \
-	chmod 0700 /home/${user}/.ssh && \
-	echo "$ssh_prv_key" > /home/${user}/.ssh/id_rsa && \
-	echo "$ssh_pub_key" > /home/${user}/.ssh/id_rsa.pub && \
-	echo "$ssh_pub_key" > /home/${user}/.ssh/authorized_keys && \
-	chmod 600 /home/${user}/.ssh/id_rsa && \
+RUN [ ! -z "${ssh_prv_key}" ] || \
+	[ ! -z "${ssh_pub_key}" ] && \
+	mkdir -p /home/${user}/.ssh && \
+	chmod 0700 /home/${user}/.ssh || \
+	:
+RUN [ ! -z "${ssh_prv_key}" ] && \
+	echo "${ssh_prv_key}" > /home/${user}/.ssh/id_rsa && \
+	chmod 600 /home/${user}/.ssh/id_rsa || \
+	:
+RUN [ ! -z "${ssh_pub_key}" ] && \
+	echo "${ssh_pub_key}" > /home/${user}/.ssh/id_rsa.pub && \
+	echo "${ssh_pub_key}" > /home/${user}/.ssh/authorized_keys && \
 	chmod 400 /home/${user}/.ssh/id_rsa.pub && \
-	chmod 400 /home/${user}/.ssh/authorized_keys
+	chmod 400 /home/${user}/.ssh/authorized_keys || \
+	:
+
+RUN [ ! -z "${gitconfig}" ] && \
+	echo "${gitconfig}" > /home/${user}/.gitconfig && \
+	chmod 644 /home/${user}/.gitconfig || \
+	:
 
 COPY setup-docker-ubuntu-20.04.sh /home/${user}/
 RUN sudo chown ${user}:${user} /home/${user}/setup-docker-ubuntu-20.04.sh && \
