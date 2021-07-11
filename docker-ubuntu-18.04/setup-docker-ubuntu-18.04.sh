@@ -420,10 +420,6 @@ post_process() {
 
 	home="$(getent passwd ${uid} | cut -d: -f6)"
 
-	# python3 virtualenvwrapper
-	# NOTE: Ubuntu 18.04 doesn't have python3-virtualenvwrapper package
-	sudo -u ${user} -H -i bash -c "PIP_REQUIRE_VIRTUALENV=\"false\" python3 -m pip install --upgrade --force-reinstall virtualenvwrapper"
-
 	# java
 	update-java-alternatives --auto
 
